@@ -133,6 +133,17 @@ android {
     }
 }
 
+android.variantFilter { variant ->
+    def environment = findProperty("env")
+    if(environment != null){
+        def variantEnvironment = variant.getFlavors().get(0).name
+        if(environment!=variantEnvironment){
+            println("Disabled ${variant.name} due to no match with -Penv=$environment flag")
+            variant.setIgnore(true)
+        }
+    }
+}
+
 kapt {
     useBuildCache = true
 }
