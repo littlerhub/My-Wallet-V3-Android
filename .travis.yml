@@ -6,3 +6,4 @@ android:
 script:
   - echo $FIREBASE_API_JSON  | base64 --decode > app/google-services.json
   - ./gradlew build -Penv=envDev -PbuildType=debug -x lint -x integTest
+sudo: required
