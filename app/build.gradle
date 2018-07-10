@@ -135,10 +135,18 @@ android {
 
 android.variantFilter { variant ->
     def environment = findProperty("env")
-    if(environment != null){
+    if (environment != null) {
         def variantEnvironment = variant.getFlavors().get(0).name
-        if(environment!=variantEnvironment){
+        if (environment != variantEnvironment) {
             println("Disabled ${variant.name} due to no match with -Penv=$environment flag")
+            variant.setIgnore(true)
+        }
+    }
+
+    def buildType = findProperty("buildType")
+    if (buildType != null) {
+        if (buildType != variant.buildType.name) {
+            println("Disabled ${variant.name} due to no match with -PbuildType=$buildType flag")
             variant.setIgnore(true)
         }
     }
