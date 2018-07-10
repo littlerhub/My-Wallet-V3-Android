@@ -17,7 +17,11 @@ buildProperties {
 android {
     compileSdkVersion Versions.compileSdk
     buildToolsVersion Versions.buildTools
-    dexOptions.javaMaxHeapSize "3g"
+    dexOptions {
+        javaMaxHeapSize "3g"
+        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+        preDexLibraries = preDexEnabled && !travisBuild
+    }
 
     defaultConfig {
         applicationId "piuk.blockchain.android"

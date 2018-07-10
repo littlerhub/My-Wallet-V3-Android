@@ -31,3 +31,9 @@ task clean(type: Delete) {
 }
 
 apply from: 'quality/jacocoRootReport.gradle'
+
+ext {
+    travisBuild = System.getenv("TRAVIS") == "true"
+    // allows for -Dpre-dex=false to be set
+    preDexEnabled = "true" == System.getProperty("pre-dex", "true")
+}
