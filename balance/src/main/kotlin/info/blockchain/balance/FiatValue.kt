@@ -1,6 +1,7 @@
 package info.blockchain.balance
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Currency
@@ -45,6 +46,9 @@ data class FiatValue(
 ) {
     val isZero: Boolean = value.signum() == 0
 
+    val valueMinor: Long =
+        value.movePointRight(Currency.getInstance(currencyCode).defaultFractionDigits).toLong()
+
     fun toStringWithSymbol(locale: Locale): String =
         FiatFormat[Key(locale, currencyCode, includeSymbol = true)]
             .format(value)
@@ -62,7 +66,8 @@ data class FiatValue(
 
     fun toParts(locale: Locale) = toStringWithoutSymbol(locale)
         .let {
-            val index = it.lastIndexOf(LocaleDecimalFormat[locale].decimalFormatSymbols.decimalSeparator)
+            val index =
+                it.lastIndexOf(LocaleDecimalFormat[locale].decimalFormatSymbols.decimalSeparator)
             if (index != -1) {
                 Parts(
                     symbol(locale),
@@ -86,6 +91,12 @@ data class FiatValue(
             FiatValue(
                 currencyCode,
                 BigDecimal.valueOf(minor).movePointLeft(Currency.getInstance(currencyCode).defaultFractionDigits)
+            )
+
+        fun fromMajor(currencyCode: String, major: BigDecimal) =
+            FiatValue(
+                currencyCode,
+                major.setScale(Currency.getInstance(currencyCode).defaultFractionDigits, RoundingMode.HALF_UP)
             )
     }
 }

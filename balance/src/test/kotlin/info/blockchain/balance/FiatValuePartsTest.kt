@@ -8,7 +8,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract GBP parts in UK`() {
-        FiatValue("GBP", 1.2.toBigDecimal())
+        1.2.gbp()
             .toParts(Locale.UK).apply {
                 symbol `should equal` "£"
                 major `should equal` "1"
@@ -18,7 +18,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract USD parts in US`() {
-        FiatValue("USD", 9.89.toBigDecimal())
+        9.89.usd()
             .toParts(Locale.US).apply {
                 symbol `should equal` "$"
                 major `should equal` "9"
@@ -28,7 +28,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract USD parts in UK`() {
-        FiatValue("USD", 5.86.toBigDecimal())
+        5.86.usd()
             .toParts(Locale.UK).apply {
                 symbol `should equal` "USD"
                 major `should equal` "5"
@@ -38,7 +38,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract JPY parts in Japan`() {
-        FiatValue("JPY", 512.0.toBigDecimal())
+        512.jpy()
             .toParts(Locale.JAPAN).apply {
                 symbol `should equal` "￥"
                 major `should equal` "512"
@@ -48,7 +48,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract USD parts in France`() {
-        FiatValue("USD", 1512.99.toBigDecimal())
+        1512.99.usd()
             .toParts(Locale.FRANCE).apply {
                 symbol `should equal` "USD"
                 major `should equal` "1 512"
@@ -58,7 +58,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract Euro parts in Italy`() {
-        FiatValue("EUR", 2356.32.toBigDecimal())
+        2356.32.eur()
             .toParts(Locale.FRANCE).apply {
                 symbol `should equal` "€"
                 major `should equal` "2 356"
@@ -68,7 +68,7 @@ class FiatValuePartsTest {
 
     @Test
     fun `extract Euro parts in Germany`() {
-        FiatValue("EUR", 4567.98.toBigDecimal())
+        4567.98.eur()
             .toParts(Locale.GERMANY).apply {
                 symbol `should equal` "€"
                 major `should equal` "4.567"

@@ -1,5 +1,6 @@
 package info.blockchain.balance
 
+import org.amshove.kluent.`should be`
 import org.amshove.kluent.`should equal`
 import org.junit.Test
 
@@ -10,7 +11,7 @@ class FiatValueFromMinorTests {
         FiatValue.fromMinor(
             "GBP",
             123
-        ) `should equal` FiatValue("GBP", 1.23.toBigDecimal())
+        ) `should equal` 1.23.gbp()
     }
 
     @Test
@@ -18,7 +19,15 @@ class FiatValueFromMinorTests {
         FiatValue.fromMinor(
             "GBP",
             200
-        ) `should equal` FiatValue("GBP", 2.0.toBigDecimal().setScale(2))
+        ) `should equal` FiatValue("GBP", 2.toBigDecimal().setScale(2))
+    }
+
+    @Test
+    fun `from minor GBP scale is set to 2`() {
+        FiatValue.fromMinor(
+            "GBP",
+            200
+        ).value.scale() `should be` 2
     }
 
     @Test
@@ -26,14 +35,22 @@ class FiatValueFromMinorTests {
         FiatValue.fromMinor(
             "USD",
             456
-        ) `should equal` FiatValue("USD", 4.56.toBigDecimal())
+        ) `should equal` 4.56.usd()
     }
 
     @Test
-    fun `from minor YEN`() {
+    fun `from minor JPY`() {
         FiatValue.fromMinor(
             "JPY",
             456
-        ) `should equal` FiatValue("JPY", 456.toBigDecimal())
+        ) `should equal` 456.jpy()
+    }
+
+    @Test
+    fun `from minor JPY scale is set to 0`() {
+        FiatValue.fromMinor(
+            "JPY",
+            200
+        ).value.scale() `should be` 0
     }
 }

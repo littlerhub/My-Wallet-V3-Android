@@ -122,7 +122,7 @@ class FiatValueTests {
     }
 
     @Test
-    fun `isZero`() {
+    fun `is Zero`() {
         FiatValue("GBP", 0.toBigDecimal()).isZero `should be` true
     }
 
@@ -143,23 +143,18 @@ class FiatValueTests {
 
     @Test
     fun `can add`() {
-        FiatValue("GBP", 1.2.toBigDecimal()) +
-            FiatValue("GBP", 2.3.toBigDecimal()) `should equal`
-            FiatValue("GBP", 3.5.toBigDecimal())
+        1.2.gbp() + 2.3.gbp() `should equal` 3.5.gbp()
     }
 
     @Test
     fun `can add with alternative currency and values`() {
-        FiatValue("USD", 10.toBigDecimal()) +
-            FiatValue("USD", 20.toBigDecimal()) `should equal`
-            FiatValue("USD", 30.toBigDecimal())
+        10.usd() + 20.usd() `should equal` 30.usd()
     }
 
     @Test
     fun `can't add if the currency codes don't match`() {
         {
-            FiatValue("GBP", 1.2.toBigDecimal()) +
-                FiatValue("USD", 2.3.toBigDecimal())
+            1.2.gbp() + 2.3.usd()
         } `should throw the Exception` MismatchedCurrencyCodeException::class `with message`
             "Mismatched currency codes during add"
     }
