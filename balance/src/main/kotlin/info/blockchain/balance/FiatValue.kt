@@ -40,7 +40,9 @@ private object FiatFormat {
     }
 }
 
-data class FiatValue(
+// TODO: AND-1363 Remove suppress, possibly by implementing equals manually as copy is not needed
+@Suppress("DataClassPrivateConstructor")
+data class FiatValue private constructor(
     val currencyCode: String,
     val value: BigDecimal
 ) {
@@ -66,8 +68,7 @@ data class FiatValue(
 
     fun toParts(locale: Locale) = toStringWithoutSymbol(locale)
         .let {
-            val index =
-                it.lastIndexOf(LocaleDecimalFormat[locale].decimalFormatSymbols.decimalSeparator)
+            val index = it.lastIndexOf(LocaleDecimalFormat[locale].decimalFormatSymbols.decimalSeparator)
             if (index != -1) {
                 Parts(
                     symbol(locale),
@@ -88,15 +89,19 @@ data class FiatValue(
     companion object {
 
         fun fromMinor(currencyCode: String, minor: Long) =
-            FiatValue(
+            fromMajor(
                 currencyCode,
                 BigDecimal.valueOf(minor).movePointLeft(Currency.getInstance(currencyCode).defaultFractionDigits)
             )
 
+        @JvmStatic
         fun fromMajor(currencyCode: String, major: BigDecimal) =
             FiatValue(
                 currencyCode,
-                major.setScale(Currency.getInstance(currencyCode).defaultFractionDigits, RoundingMode.HALF_UP)
+                major.setScale(
+                    Currency.getInstance(currencyCode).defaultFractionDigits,
+                    RoundingMode.HALF_UP
+                )
             )
     }
 }

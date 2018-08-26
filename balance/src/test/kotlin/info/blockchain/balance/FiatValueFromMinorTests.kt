@@ -19,7 +19,7 @@ class FiatValueFromMinorTests {
         FiatValue.fromMinor(
             "GBP",
             200
-        ) `should equal` FiatValue("GBP", 2.toBigDecimal().setScale(2))
+        ) `should equal` 2.gbp()
     }
 
     @Test
