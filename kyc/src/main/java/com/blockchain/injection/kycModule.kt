@@ -1,5 +1,6 @@
 package com.blockchain.injection
 
+import com.blockchain.kyc.datamanagers.nabu.NabuAuthenticator
 import com.blockchain.kyc.datamanagers.nabu.NabuDataManager
 import com.blockchain.kyc.datamanagers.onfido.OnfidoDataManager
 import com.blockchain.kyc.models.nabu.KycStateAdapter
@@ -13,6 +14,7 @@ import com.blockchain.kycui.mobile.entry.KycMobileEntryPresenter
 import com.blockchain.kycui.mobile.validation.KycMobileValidationPresenter
 import com.blockchain.kycui.onfidosplash.OnfidoSplashPresenter
 import com.blockchain.kycui.profile.KycProfilePresenter
+import com.blockchain.nabu.Authenticator
 import com.blockchain.nabu.stores.NabuSessionTokenStore
 import com.blockchain.network.modules.MoshiBuilderInterceptor
 import com.squareup.moshi.Moshi
@@ -42,6 +44,10 @@ val kycModule = applicationContext {
                 get(),
                 get()
             )
+        }
+
+        factory {
+            NabuAuthenticator(get(), get()) as Authenticator
         }
 
         factory { KycCountrySelectionPresenter(get()) }
